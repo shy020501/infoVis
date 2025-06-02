@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Academic Performance Analysis based on Student Habits</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    body { font-family: sans-serif; margin: 20px; }
+    .tab-buttons button, .control-buttons button {
+      padding: 12px 24px; 
+      font-size: 17px; 
+      cursor: pointer;
+    }
+
+    #xAttrForm label, #yAttrForm label {
+      font-size: 16px; 
+      display: inline-block; 
+      margin-right: 10px; 
+      min-height: 30px;
+    }
+
+    #scatter-controls h3 { margin: 6px 0; }
+    #xAttrForm, #yAttrForm { margin-bottom: 6px; }
+
+    .tooltip {
+      position: absolute; 
+      padding: 6px 10px;
+      background: rgba(0, 0, 0, 0.75); 
+      color: white;
+      border-radius: 4px; 
+      font-size: 13px;
+      pointer-events: none; 
+      visibility: hidden; 
+      z-index: 10;
+    }
+
+    .flex-row {
+      display: flex; 
+      align-items: flex-start; 
+      min-width: 1300px;
+    }
+
+    .heatmap-container {
+      min-height: 850px; 
+      align-items: flex-start;
+    }
+
+    #heatmap { 
+      flex: none; 
+      min-width: 975px;
+    }
+
+    #attribute-controls {
+      position: relative; 
+      min-width: 220px;
+      margin-left: 10px; 
+      margin-top: 150px;
+    }
+
+    #attribute-controls form label {
+      display: block; 
+      margin-bottom: 15px; 
+      font-size: 17px;
+    }
+
+    #attribute-controls input[type="checkbox"] {
+      transform: scale(1.5); 
+      margin-right: 6px; 
+      vertical-align: middle;
+    }
+
+    #student-info-box {
+      border: 1px solid #ccc;
+      padding: 15px;
+      width: 320px; 
+      font-size: 16px; 
+      background: #f9f9f9;
+    }
+
+    .value-container {
+      display: flex;
+      justify-content: flex-end;
+      min-width: 140px;
+    }
+
+    .student-value {
+      display: inline-block;
+      text-align: right;
+      width: 100px;
+    }
+
+    .average-value {
+      text-align: left;
+      display: inline-block;
+      width: 35px;
+      color: #555;
+      padding-left: 10px;
+    }
+
+    svg { margin-top: 10px; }
+  </style>
+</head>
+
+<body>
+  <h1>Academic Performance Analysis based on Student Habits</h1>
+
+  <div class="top-row" style="display: flex; gap: 40px; margin-bottom: 50px;">
+    <div style="flex: 1; max-width: 1200px;">
+      <h2>Scatterplot</h2>
+      <div id="scatter-controls" style="margin-bottom: 5px;">
+        <div>
+          <h3>X-Axis</h3>
+          <form id="xAttrForm" style="display: flex; flex-wrap: wrap; gap: 12px;"></form>
+        </div>
+        <div>
+          <h3>Y-Axis</h3>
+          <form id="yAttrForm" style="display: flex; flex-wrap: wrap; gap: 12px;"></form>
+        </div>
+      </div>
+      <div style="display: flex; gap: 30px;">
+        <svg id="scatterplot" width="800" height="600"></svg>
+        <div id="student-info-box">
+          <h3 id="student-info-title">Select Student</h3>
+          <div id="student-info"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="heatmap-wrapper" style="flex: 1;">
+      <h2 id="heatmap-title" style="margin-left: 175px;">Correlation Heatmap</h2>
+      <div class="flex-row heatmap-container">
+        <svg id="heatmap" width="600" height="600"></svg>
+        <div id="attribute-controls">
+          <form id="attributeForm"></form>
+          <div class="control-buttons" style="margin-top: 10px;">
+            <button id="selectAll">Select All</button>
+            <button id="deselectAll" style="margin-left: 10px;">Deselect All</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top: 80px;">
+    <h2>Grouped Bar Chart</h2>
+    <div id="group-attribute-controls" style="margin-bottom: 10px; display: flex; flex-wrap: wrap; gap: 15px;"></div>
+    <svg id="barchart" width="1300" height="500"></svg>
+  </div>
+
+  <div class="tooltip" id="tooltip"></div>
+  <script src="./script.js"></script>
+</body>
+</html>
